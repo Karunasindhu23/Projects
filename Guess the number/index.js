@@ -29,8 +29,8 @@ function validateGuess(guess) {
     alert('Please enter a valid number');
   } else if (guess < 1) {
     alert('Please enter a valid number more than 1');
-  } else if (guess > 100) {
-    alert('Please enter a valid number less than 100');
+  } else if (guess > 20) {
+    alert('Please enter a valid number less than 20');
   } else {
     prevGuess.push(guess);
     if (numGuess > maxGuess) {
@@ -96,3 +96,4 @@ function newGame() {
     playGame = true;
   });
 }
+
