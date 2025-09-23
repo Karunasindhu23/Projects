@@ -6,7 +6,7 @@ form.addEventListener('submit', (e) => {
   const weight = parseInt(document.querySelector('#weight').value)
   const results = document.querySelector('#results')
 
-  if(height > 230 && weight > 150){
+  if((height > 230 && weight > 150) || (height <= 0 && weight <= 0){
     results.innerHTML = `<span class="error">⚠️ Please enter a valid height & weight</span>`
   }else if (height === '' || height <= 0 || isNaN(height) || height > 230) {
     results.innerHTML = `<span class="error">⚠️ Please enter a valid height</span>`
@@ -24,6 +24,7 @@ form.addEventListener('submit', (e) => {
     }
   }
 })
+
 
 
 
