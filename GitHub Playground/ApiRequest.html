@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub API Practice</title>
+  <style>
+    body { background: #212121; color: #fff; font-family: Arial, sans-serif; }
+    #output { margin-top: 20px; padding: 10px; border: 1px solid #555; }
+    input, button { padding: 8px; margin: 5px 0; }
+    img { width: 100px; border-radius: 50%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>GitHub API Practice Playground</h2>
+
+  <!-- Input for mini project -->
+  <input type="text" id="username" placeholder="Enter GitHub username">
+  <button id="fetchBtn">Fetch Profile</button>
+
+  <!-- Display output here -->
+  <div id="output">Profile info will appear here...</div>
+
+  <script>
+    console.log("✅ Practice Started!");
+
+    // ------------------------------
+    // 🕒 0:00 – 0:10 → Basic Request
+    // 1. Create a requestUrl with a GitHub username (example: octocat)
+    // 2. Create new XMLHttpRequest()
+    // 3. Use xhr.open("GET", requestUrl)
+    // 4. Add onreadystatechange listener → console.log(xhr.readyState)
+    // 5. When readyState === 4, parse JSON (JSON.parse(this.responseText))
+    // 6. Console log name, followers, following
+    // ------------------------------
+
+    // const requestUrl = 'https://api.github.com/users/octocat';
+    // const xhr = new XMLHttpRequest()
+    // xhr.open("GET", requestUrl)
+    // xhr.onreadystatechange = function(){
+    //     console.log(xhr.readyState);
+    //     if(xhr.readyState === 4){
+    //         const data = JSON.parse(this.responseText)
+
+    //         console.log("typeof:", typeof data);
+    //         console.log("Name:", data.name);
+    //         console.log("followers:", data.followers);
+    //         console.log("following:", data.following);
+    //     }
+    // }
+    // xhr.send()
+
+    // ------------------------------
+    // 🕒 0:10 – 0:25 → Show Data on Page
+    // 1. Add a <div id="output"> in HTML (already added above)
+    // 2. Replace console.log with:
+    //    document.getElementById("output").innerHTML = `Name: ... Followers: ...`
+    // 3. Test with different usernames (octocat, torvalds, microsoft)
+    // ------------------------------
+
+    // const requestUrl = 'https://api.github.com/users/microsoft';
+    // const xhr = new XMLHttpRequest()
+    // xhr.open("GET", requestUrl)
+    // xhr.onreadystatechange = function(){
+    //     console.log(xhr.readyState);
+    //     if(xhr.readyState === 4){
+    //       const data = JSON.parse(this.responseText)
+
+    //       document.getElementById("output").innerHTML = `Name: ${data.name} <br> Followers: ${data.followers} <br> Following: ${data.following}`
+    //     }
+    // }
+    // xhr.send()
+
+    // ------------------------------
+    // 🕒 0:25 – 0:40 → Error Handling
+    // 1. Add xhr.status check:
+    //    if (xhr.readyState === 4 && xhr.status === 200) { ...success... }
+    //    else if (xhr.readyState === 4) { console.log("Error fetching data") }
+    // 2. Try with a wrong username → see error message
+    // ------------------------------
+
+    // const requestUrl = 'https://api.github.com/users/microsoft';
+    // const xhr = new XMLHttpRequest()
+    // xhr.open("GET", requestUrl)
+    // xhr.onreadystatechange = function(){
+    //     console.log(xhr.readyState);
+    //     if(xhr.readyState === 4 && xhr.status === 200){
+    //       const data = JSON.parse(this.responseText)
+
+    //       document.getElementById("output").innerHTML = `Name: ${data.name} <br> Followers: ${data.followers} <br> Following: ${data.following}`
+    //     } else if(xhr.readyState === 4) {
+    //       document.getElementById("output").innerHTML = `<p>Error fetching data</p>`
+    //     }
+    // }
+    // xhr.send()
+
+    // ------------------------------
+    // 🕒 0:40 – 1:00 → Mini Project: GitHub Profile Card
+    // 1. Use the <input> (id="username") and <button> (id="fetchBtn")
+    // 2. On button click → get the input value
+    // 3. Build requestUrl: `https://api.github.com/users/${inputValue}`
+    // 4. Send XHR request
+    // 5. If success → display:
+    //    - Avatar (data.avatar_url)
+    //    - Name (data.name)
+    //    - Followers (data.followers)
+    //    - Following (data.following)
+    //    Example innerHTML:
+    //    output.innerHTML = `
+    //       <img src="${data.avatar_url}" />
+    //       <p>Name: ${data.name}</p>
+    //       <p>Followers: ${data.followers}</p>
+    //       <p>Following: ${data.following}</p>
+    //    `
+    // 6. If error (wrong username), show "User not found"
+    // ------------------------------
+
+    document.getElementById("fetchBtn").addEventListener('click', function(){
+      const inputValue = document.getElementById("username").value
+      const requestUrl = `https://api.github.com/users/${inputValue}`;
+    const xhr = new XMLHttpRequest()
+    xhr.open("GET", requestUrl)
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        if(xhr.readyState === 4 && xhr.status === 200){
+          const data = JSON.parse(this.responseText)
+
+          document.getElementById("output").innerHTML = `
+            <img src="${data.avatar_url}" width="100" />
+                   <p>Name: ${data.name}</p>
+                   <p>Followers: ${data.followers}</p>
+                   <p>Following: ${data.following}</p>
+          `;
+        } else if(xhr.readyState === 4) {
+          document.getElementById("output").innerHTML = "❌ User not found";
+        }
+    }
+    xhr.send()
+    })
+  </script>
+</body>
+</html>
