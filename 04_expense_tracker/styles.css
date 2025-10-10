@@ -1,0 +1,178 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #0f0f10;
+  --panel: #1a1b1e;
+  --elev: #232429;
+  --text: #f2f3f5;
+  --muted: #b0b3b8;
+  --accent: #7c4dff;
+  --accent-700: #6739f9;
+  --accent-800: #4f2fe6;
+  --danger: #ef4444;
+  --ring: color-mix(in srgb, var(--accent) 62%, white 38%);
+}
+
+html { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(124,77,255,0.12), transparent 40%),
+    radial-gradient(1400px 800px at 110% 10%, rgba(124,77,255,0.12), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Card container ---------- */
+.container {
+  width: min(92vw, 440px);
+  padding: 20px;
+  background-color: var(--panel);
+  border: 1px solid #2a2c33;
+  border-radius: 14px;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.02) inset;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+}
+h1 { font-size: clamp(1.25rem, 1.2rem + 0.8vw, 1.6rem); }
+h2, h3 { font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.25rem); }
+
+/* ---------- Form layout ---------- */
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: var(--elev);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  caret-color: var(--accent);
+}
+input::placeholder { color: var(--muted); }
+input:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- Buttons ---------- */
+button {
+  padding: 12px 16px;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 14px rgba(124, 77, 255, 0.25);
+}
+button:hover { background-color: var(--accent-700); transform: translateY(-1px); }
+button:active { background-color: var(--accent-800); transform: translateY(0); }
+button:focus-visible { box-shadow: 0 0 0 3px var(--ring); outline: none; }
+
+/* Optional variants if needed in HTML */
+button.secondary { background-color: #3a3d46; }
+button.secondary:hover { background-color: #474c57; }
+button.btn-danger { background-color: var(--danger); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.25); }
+button.btn-danger:hover { filter: brightness(1.05); }
+
+/* ---------- Expense list ---------- */
+#expense-list {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  max-height: 40vh;
+  overflow: auto;
+  padding-right: 4px; /* space for scrollbar */
+}
+
+#expense-list li {
+  background-color: var(--elev);
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #2a2c33;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#expense-list li:hover { border-color: #3a3d46; }
+
+/* Optional semantic hooks if present in markup */
+#expense-list li .title { color: var(--text); font-weight: 600; }
+#expense-list li .amount { font-weight: 700; color: #e6e1ff; }
+
+/* ---------- Total ---------- */
+#total {
+  text-align: right;
+  font-weight: 700;
+  font-size: clamp(1rem, 0.9rem + 0.8vw, 1.25rem);
+}
+#total .value { color: var(--accent); }
+
+/* ---------- Utilities ---------- */
+.hidden { display: none !important; }
+
+/* Custom scrollbar (WebKit) for the list */
+#expense-list::-webkit-scrollbar { width: 8px; }
+#expense-list::-webkit-scrollbar-thumb {
+  background: #3a3d46;
+  border-radius: 8px;
+}
+#expense-list::-webkit-scrollbar-thumb:hover { background: #4a4f59; }
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 560px) {
+  form { grid-template-columns: 1fr; }
+  button { width: 100%; }
+}
+
+/* Optional: light theme override if html has data-theme="light" */
+html[data-theme="light"] {
+  --bg: #f7f7f9;
+  --panel: #ffffff;
+  --elev: #f2f3f5;
+  --text: #0c0c0d;
+  --muted: #5b616e;
+  --accent: #5b6cff;
+  --accent-700: #4656ff;
+  --accent-800: #3644e6;
+  --ring: color-mix(in srgb, var(--accent) 52%, black 48%);
+}
